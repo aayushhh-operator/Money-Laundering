@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Money Laundering Suspicion Prediction</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Money Laundering Suspicion Prediction</h1>
+        <form action="/predict" method="POST">
+            <label for="Received_currency">Received Currency:</label>
+            <select name="Received_currency" id="Received_currency">
+                <option value="Dirham">Dirham</option>
+                <option value="Euro">Euro</option>
+                <option value="Indian Rupee">Indian Rupee</option>
+                <option value="UK pounds">UK pounds</option>
+                <option value="US dollar">US dollar</option>
+            </select>
+
+            <label for="Payment_type">Payment Type:</label>
+            <select name="Payment_type" id="Payment_type">
+                <option value="Cross-border">Cross-border</option>
+                <option value="Credit Card">Credit Card</option>
+                <option value="Cash Deposit">Cash Deposit</option>
+                <option value="ACH">ACH</option>
+                <option value="Cheque">Cheque</option>
+                <option value="Cash Withdrawl">Cash DWithdrawl</option>
+                <option value="Debit Card">Debit Card</option>
+            </select>
+
+            <label for="Payment_currency">Payment Currency:</label>
+            <select name="Payment_currency" id="Payment_currency">
+                <option value="UK pounds">UK pounds</option>
+                <option value="Euro">Euro</option>
+                <option value="Indian Rupee">Indian Rupee</option>
+            </select>
+
+            <label for="Receiver_bank_location">Receiver Bank Location:</label>
+            <select name="Receiver_bank_location" id="Receiver_bank_location">
+                <option value="UAE">UAE</option>
+                <option value="India">India</option>
+                <option value="USA">USA</option>
+            </select>
+
+            <label for="Amount">Amount:</label>
+            <input type="number" name="Amount" id="Amount" step="0.01" required>
+
+            <button type="submit">Predict</button>
+        </form>
+
+        <div id="result"></div>
+    </div>
+
+    <script>
+        const form = document.querySelector('form');
+        form.onsubmit = async (event) => {
+            event.preventDefault();
+            
+            const formData = new FormData(form);
+            const response = await fetch('/predict', {
+                method: 'POST',
+                body: formData
+            });
+            const data = await response.json();
+            document.getElementById('result').innerText = `Prediction: ${data.prediction}`;
+        };
+    </script>
+</body>
+</html>
