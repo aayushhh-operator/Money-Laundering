@@ -1,8 +1,12 @@
 from flask import Flask, render_template, request, jsonify
+from flask_cors import CORS  # Import CORS
 import pandas as pd
 import joblib  # Import joblib instead of pickle
 
 app = Flask(__name__)
+
+# Enable CORS for all routes
+CORS(app)
 
 # Load your pre-trained model (Assuming 'best_model.joblib' is the saved model)
 best_model = joblib.load('Beast_model.pkl')  # Using joblib to load the model
